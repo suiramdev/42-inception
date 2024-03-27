@@ -1,0 +1,27 @@
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+
+  server_name www.${DOMAIN_NAME} ${DOMAIN_NAME};
+
+  ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+  ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+  ssl_protocols TLSv1.3;
+
+  index index.php;
+  root /var/www/html/wordpress;
+
+  location ~ [^/]\\.php(/|$) {
+    # The try_files directive attempts to serve the requested file, and if it does not exist, it will return a 404 error.
+    try_files $uri =404;
+
+    #The fastcgi_pass directive passes the request to a FastCGI server for processing.
+    fastcgi_pass wordpress:9000;
+
+    # The include directive includes a file with FastCGI parameters.
+    include fastcgi_params;
+
+    # The fastcgi_param directive sets a FastCGI parameter. The SCRIPT_FILENAME parameter specifies the path to the PHP script that should be executed.
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  }
+}
