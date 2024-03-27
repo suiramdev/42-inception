@@ -1,6 +1,9 @@
 .PHONY: start stop build clean rebuild
 
 start:
+	mkdir -p /Users/${USER}/data
+	mkdir -p /Users/${USER}/data/wordpress
+	mkdir -p /Users/${USER}/data/mariadb
 	docker-compose -f srcs/docker-compose.yml up -d
 
 stop:
@@ -11,5 +14,10 @@ build:
 
 clean:
 	docker-compose -f srcs/docker-compose.yml down --rmi all
+	docker volume rm wordpress
+	docker volume rm mariadb
+  rm -rf /Users/${USER}/data
 
-rebuild: stop build start
+re: clean build start
+
+rebuild: start stop build clean
