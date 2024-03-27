@@ -16,7 +16,7 @@ clean:
 	docker-compose -f srcs/docker-compose.yml down --rmi all
 	docker volume rm wordpress
 	docker volume rm mariadb
-  rm -rf /Users/${USER}/data
+	rm -rf /Users/${USER}/data
 
 re: clean build start
 
