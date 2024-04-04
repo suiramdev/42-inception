@@ -1,9 +1,9 @@
 .PHONY: start stop build clean rebuild
 
 start:
-	mkdir -p /Users/${USER}/data
-	mkdir -p /Users/${USER}/data/wordpress
-	mkdir -p /Users/${USER}/data/mariadb
+	mkdir -p ${DATA_PATH}
+	mkdir -p ${DATA_PATH}/wordpress
+	mkdir -p ${DATA_PATH}/mariadb
 	docker-compose -f srcs/docker-compose.yml up -d
 
 stop:
